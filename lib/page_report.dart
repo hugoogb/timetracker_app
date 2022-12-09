@@ -10,16 +10,18 @@ class PageReport extends StatefulWidget {
 
 class _PageReportState extends State<PageReport> {
   static final DateFormat dateFormatter = DateFormat('yyyy-MM-dd');
+  static final DateTime today = DateTime.now();
+  static final DateTime yesterday =
+      DateTime.now().subtract(const Duration(days: 1));
+  static final DateTime mondayOfThisWeek =
+      DateTime(today.year, today.month, today.day - today.weekday + 1);
+  static final DateTime mondayOfLastWeek =
+      mondayOfThisWeek.subtract(const Duration(days: 7));
+
   late DateTimeRange _selectedDateTimeRange;
   late String _selectedValuePeriod;
   late String _selectedValueContent;
   late String _selectedValueFormat;
-  late DateTime today = DateTime.now();
-  late DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
-  late DateTime mondayOfThisWeek =
-      DateTime(today.year, today.month, today.day - today.weekday + 1);
-  late DateTime mondayOfLastWeek =
-      mondayOfThisWeek.subtract(const Duration(days: 7));
 
   @override
   void initState() {

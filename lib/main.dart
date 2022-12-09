@@ -16,6 +16,6 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           primarySwatch: Colors.orange,
         ),
-        home: const PageActivities());
+        home: const PageActivities(0));
   }
 }

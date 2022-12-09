@@ -120,13 +120,9 @@ Tree getTreeTask() {
 
 testLoadTree() {
   Tree tree = getTree();
-  if (kDebugMode) {
-    print("root name ${tree.root.name}, duration ${tree.root.duration}");
-  }
+  print("root name ${tree.root.name}, duration ${tree.root.duration}");
   for (Activity act in tree.root.children) {
-    if (kDebugMode) {
-      print("child name ${act.name}, duration ${act.duration}");
-    }
+    print("child name ${act.name}, duration ${act.duration}");
   }
 }
 
