@@ -13,8 +13,18 @@ class MyApp extends StatelessWidget {
         title: 'TimeTracker',
         theme: ThemeData(
           useMaterial3: true,
-          brightness: Brightness.dark,
-          primarySwatch: Colors.orange,
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.orange,
+            accentColor: Colors.orangeAccent,
+          ),
+        ),
+        darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSwatch(
+            brightness: Brightness.dark,
+            primarySwatch: Colors.orange,
+            accentColor: Colors.orangeAccent,
+          ),
         ),
         home: const PageActivities(0));
   }
