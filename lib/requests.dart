@@ -11,7 +11,8 @@ final http.Client client = http.Client();
 // If instead you want to use a real phone, you need ngrok to redirect
 // localhost:8080 to some temporal Url that ngrok.com provides for free: run
 // "ngrok http 8080" and replace the address in the sentence below
-const String baseUrl = "https://9db0-79-157-94-181.eu.ngrok.io";
+const String baseUrl =
+    "https://c796-79-157-94-181.eu.ngrok.io"; // change url when needed
 // Uri uri = Uri(
 //   scheme: "https",
 //   host: "9db0-79-157-94-181.eu.ngrok.io",
