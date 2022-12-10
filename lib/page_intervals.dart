@@ -60,10 +60,8 @@ class _PageIntervalsState extends State<PageIntervals> {
               actions: <Widget>[
                 IconButton(
                     icon: const Icon(Icons.home),
-                    color: Colors.orange,
                     onPressed: () {
                       while (Navigator.of(context).canPop()) {
-                        print("pop");
                         Navigator.of(context).pop();
                       }
                       const PageActivities(0);
@@ -84,9 +82,8 @@ class _PageIntervalsState extends State<PageIntervals> {
           return Text("${snapshot.error}");
         }
         // By default, show a progress indicator
-        return Container(
+        return SizedBox(
             height: MediaQuery.of(context).size.height,
-            color: Colors.black,
             child: const Center(
               child: CircularProgressIndicator(),
             ));
@@ -101,19 +98,12 @@ class _PageIntervalsState extends State<PageIntervals> {
     // this removes the microseconds part
     String strFinalDate = interval.finalDate.toString().split('.')[0];
     return Card(
-      color: Colors.orangeAccent,
       child: ListTile(
         title: Text(
           'from $strInitialDate to $strFinalDate',
-          style: const TextStyle(
-            color: Color.fromRGBO(30, 30, 30, 1),
-          ),
         ),
         trailing: Text(
           strDuration,
-          style: const TextStyle(
-            color: Color.fromRGBO(30, 30, 30, 1),
-          ),
         ),
       ),
     );

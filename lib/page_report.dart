@@ -62,7 +62,6 @@ class _PageReportState extends State<PageReport> {
       },
       child: const Text(
         'ACCEPT',
-        style: TextStyle(color: Colors.orange),
       ),
     );
 
@@ -142,9 +141,6 @@ class _PageReportState extends State<PageReport> {
       appBar: AppBar(
         title: const Text(
           'Report',
-          style: TextStyle(
-            color: Colors.orange,
-          ),
         ),
         leading: GestureDetector(
           onTap: () {
@@ -153,7 +149,6 @@ class _PageReportState extends State<PageReport> {
           },
           child: const Icon(
             Icons.arrow_back_sharp,
-            color: Colors.orange,
           ),
         ),
       ),
@@ -175,9 +170,7 @@ class _PageReportState extends State<PageReport> {
                   child: DropdownButton<String>(
                     underline: Container(
                       height: 1.0,
-                      color: Colors.orange,
                     ),
-                    iconEnabledColor: Colors.orange,
                     value: _selectedValuePeriod,
                     items: [
                       'Last week',
@@ -235,7 +228,6 @@ class _PageReportState extends State<PageReport> {
                       IconButton(
                         icon: const Icon(
                           Icons.calendar_month_sharp,
-                          color: Colors.orange,
                         ),
                         onPressed: () {
                           _pickFromDate();
@@ -265,7 +257,6 @@ class _PageReportState extends State<PageReport> {
                       IconButton(
                         icon: const Icon(
                           Icons.calendar_month_sharp,
-                          color: Colors.orange,
                         ),
                         onPressed: () {
                           _pickToDate();
@@ -288,9 +279,7 @@ class _PageReportState extends State<PageReport> {
                   child: DropdownButton<String>(
                     underline: Container(
                       height: 1.0,
-                      color: Colors.orange,
                     ),
-                    iconEnabledColor: Colors.orange,
                     value: _selectedValueContent,
                     items: [
                       'Brief',
@@ -323,9 +312,7 @@ class _PageReportState extends State<PageReport> {
                   child: DropdownButton<String>(
                     underline: Container(
                       height: 1.0,
-                      color: Colors.orange,
                     ),
-                    iconEnabledColor: Colors.orange,
                     value: _selectedValueFormat,
                     items: [
                       'Web page',
@@ -350,7 +337,6 @@ class _PageReportState extends State<PageReport> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 MaterialButton(
-                  color: Colors.orange,
                   child: const Text(
                     'Generate',
                     style: TextStyle(

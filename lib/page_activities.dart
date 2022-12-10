@@ -66,24 +66,19 @@ class _PageActivitiesState extends State<PageActivities> {
             appBar: AppBar(
               title: Text(
                 snapshot.data!.root.name,
-                style: const TextStyle(
-                  color: Colors.orange,
-                ),
+                style: const TextStyle(),
               ),
               actions: <Widget>[
                 IconButton(
                     icon: const Icon(Icons.home),
-                    color: Colors.orange,
                     onPressed: () {
                       while (Navigator.of(context).canPop()) {
-                        print("pop");
                         Navigator.of(context).pop();
                       }
                       const PageActivities(0);
                     }),
                 IconButton(
                     icon: const Icon(Icons.list_alt_sharp),
-                    color: Colors.orange,
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute<void>(
                         builder: (context) => const PageReport(),
@@ -106,9 +101,8 @@ class _PageActivitiesState extends State<PageActivities> {
           return Text("${snapshot.error}");
         }
         // By default, show a progress indicator
-        return Container(
+        return SizedBox(
             height: MediaQuery.of(context).size.height,
-            color: Colors.black,
             child: const Center(
               child: CircularProgressIndicator(),
             ));
@@ -124,8 +118,6 @@ class _PageActivitiesState extends State<PageActivities> {
     assert(activity is Project || activity is Task);
     if (activity is Project) {
       return Card(
-        // color: const Color.fromRGBO(100, 100, 100, 1),
-        color: Colors.orange,
         child: ListTile(
           title: Text(activity.name),
           trailing: Text(strDuration),
@@ -136,20 +128,12 @@ class _PageActivitiesState extends State<PageActivities> {
     } else {
       // Task task = activity as Task;
       return Card(
-        // color: const Color.fromRGBO(150, 150, 150, 1),
-        color: Colors.orangeAccent,
         child: ListTile(
           title: Text(
             activity.name,
-            style: const TextStyle(
-              color: Color.fromRGBO(30, 30, 30, 1),
-            ),
           ),
           trailing: Text(
             strDuration,
-            style: const TextStyle(
-              color: Color.fromRGBO(30, 30, 30, 1),
-            ),
           ),
           onTap: () => _navigateDownIntervals(activity.id),
           onLongPress: () {
