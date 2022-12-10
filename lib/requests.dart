@@ -17,8 +17,9 @@ const String baseUrl = "http://10.0.2.2:8080";
 // https://medium.com/@vnbnews.vn/how-can-i-access-my-localhost-from-my-real-android-ios-device-d037fd192cdd
 
 Future<Tree> getTree(int id) async {
-  String uri = "$baseUrl/get_tree?$id";
-  final response = await client.get();
+  Uri uri = "$baseUrl/get_tree?$id" as Uri;
+  // String uri = "$baseUrl/get_tree?$id";
+  final response = await client.get(uri);
   // response is NOT a Future because of await but since getTree() is async,
   // execution continues (leaves this function) until response is available,
   // and then we come back here
