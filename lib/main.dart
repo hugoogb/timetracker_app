@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:timetracker_app/dark_theme.dart';
+import 'package:timetracker_app/light_theme.dart';
 import 'package:timetracker_app/page_activities.dart';
 
 void main() => runApp(const MyApp());
@@ -11,21 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'TimeTracker',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.orange,
-            accentColor: Colors.orangeAccent,
-          ),
-        ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSwatch(
-            brightness: Brightness.dark,
-            primarySwatch: Colors.orange,
-            accentColor: Colors.orangeAccent,
-          ),
-        ),
+        theme: LightTheme.lightTheme,
+        darkTheme: DarkTheme.darkTheme,
         home: const PageActivities(0));
   }
 }
