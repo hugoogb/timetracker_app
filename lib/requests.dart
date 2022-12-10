@@ -12,13 +12,17 @@ final http.Client client = http.Client();
 // localhost:8080 to some temporal Url that ngrok.com provides for free: run
 // "ngrok http 8080" and replace the address in the sentence below
 const String baseUrl = "https://9db0-79-157-94-181.eu.ngrok.io";
+// Uri uri = Uri(
+//   scheme: "https",
+//   host: "9db0-79-157-94-181.eu.ngrok.io",
+// );
 // in linux I've installed ngrok with "sudo npm install ngrok -g". On linux, windows,
 // mac download it from https://ngrok.com/. More on this here
 // https://medium.com/@vnbnews.vn/how-can-i-access-my-localhost-from-my-real-android-ios-device-d037fd192cdd
 
 Future<Tree> getTree(int id) async {
-  // String uri = "$baseUrl/get_tree?$id";
-  Uri uri = "$baseUrl/get_tree?$id" as Uri;
+  String uriString = "$baseUrl/get_tree?$id";
+  Uri uri = Uri.parse(uriString);
   final response = await client.get(uri);
   // response is NOT a Future because of await but since getTree() is async,
   // execution continues (leaves this function) until response is available,
@@ -37,8 +41,8 @@ Future<Tree> getTree(int id) async {
 }
 
 Future<void> start(int id) async {
-  // String uri = "$baseUrl/start?$id";
-  Uri uri = "$baseUrl/start?$id" as Uri;
+  String uriString = "$baseUrl/start?$id";
+  Uri uri = Uri.parse(uriString);
   final response = await client.get(uri);
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
@@ -49,8 +53,8 @@ Future<void> start(int id) async {
 }
 
 Future<void> stop(int id) async {
-  // String uri = "$baseUrl/stop?$id";
-  Uri uri = "$baseUrl/stop?$id" as Uri;
+  String uriString = "$baseUrl/stop?$id";
+  Uri uri = Uri.parse(uriString);
   final response = await client.get(uri);
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
