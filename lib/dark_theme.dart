@@ -4,7 +4,7 @@ class DarkTheme {
   DarkTheme._();
 
   static const Color _iconColor = Colors.orange;
-  static const Color _darkPrimaryColor = Colors.black;
+  // static const Color _darkPrimaryColor = Colors.black;
   static const Color _darkSecondaryColor = Colors.white;
   static const Color _darkOnPrimaryColor = Colors.white;
 
