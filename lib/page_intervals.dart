@@ -86,7 +86,7 @@ class _PageIntervalsState extends State<PageIntervals> {
         // By default, show a progress indicator
         return Container(
             height: MediaQuery.of(context).size.height,
-            color: Colors.white,
+            color: Colors.black,
             child: const Center(
               child: CircularProgressIndicator(),
             ));
