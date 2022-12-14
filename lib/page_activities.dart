@@ -64,12 +64,14 @@ class _PageActivitiesState extends State<PageActivities> {
         if (snapshot.hasData) {
           return Scaffold(
             appBar: AppBar(
+              actionsIconTheme: IconTheme.of(context),
               title: Text(
                 snapshot.data!.root.name,
                 style: const TextStyle(),
               ),
               actions: <Widget>[
                 IconButton(
+                    color: IconTheme.of(context).color,
                     icon: const Icon(Icons.home),
                     onPressed: () {
                       while (Navigator.of(context).canPop()) {
@@ -78,6 +80,7 @@ class _PageActivitiesState extends State<PageActivities> {
                       const PageActivities(0);
                     }),
                 IconButton(
+                    color: IconTheme.of(context).color,
                     icon: const Icon(Icons.list_alt_sharp),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute<void>(

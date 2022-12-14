@@ -142,15 +142,6 @@ class _PageReportState extends State<PageReport> {
         title: const Text(
           'Report',
         ),
-        leading: GestureDetector(
-          onTap: () {
-            // Navigate to the previous screen
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.arrow_back_sharp,
-          ),
-        ),
       ),
       body: Container(
         margin: const EdgeInsets.only(
@@ -169,6 +160,7 @@ class _PageReportState extends State<PageReport> {
                   margin: const EdgeInsets.only(right: 30.0),
                   child: DropdownButton<String>(
                     underline: Container(
+                      color: IconTheme.of(context).color,
                       height: 1.0,
                     ),
                     value: _selectedValuePeriod,
@@ -226,6 +218,7 @@ class _PageReportState extends State<PageReport> {
                             dateFormatter.format(_selectedDateTimeRange.start)),
                       ),
                       IconButton(
+                        color: IconTheme.of(context).color,
                         icon: const Icon(
                           Icons.calendar_month_sharp,
                         ),
@@ -255,6 +248,7 @@ class _PageReportState extends State<PageReport> {
                             dateFormatter.format(_selectedDateTimeRange.end)),
                       ),
                       IconButton(
+                        color: IconTheme.of(context).color,
                         icon: const Icon(
                           Icons.calendar_month_sharp,
                         ),
@@ -278,6 +272,7 @@ class _PageReportState extends State<PageReport> {
                   margin: const EdgeInsets.only(right: 30.0),
                   child: DropdownButton<String>(
                     underline: Container(
+                      color: IconTheme.of(context).color,
                       height: 1.0,
                     ),
                     value: _selectedValueContent,
@@ -311,6 +306,7 @@ class _PageReportState extends State<PageReport> {
                   margin: const EdgeInsets.only(right: 30.0),
                   child: DropdownButton<String>(
                     underline: Container(
+                      color: IconTheme.of(context).color,
                       height: 1.0,
                     ),
                     value: _selectedValueFormat,
@@ -337,6 +333,7 @@ class _PageReportState extends State<PageReport> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 MaterialButton(
+                  color: Theme.of(context).primaryColor,
                   child: const Text(
                     'Generate',
                     style: TextStyle(

@@ -13,8 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'TimeTracker',
-        theme: LightTheme.lightTheme,
-        darkTheme: DarkTheme.darkTheme,
+        theme: DarkTheme.darkTheme,
         home: const PageActivities(0));
   }
 }
