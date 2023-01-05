@@ -23,6 +23,7 @@ class _PageActivitiesState extends State<PageActivities> {
 
   late Timer _timer;
   static const int periodeRefresh = 6;
+  late int currentPageIndex;
 
   @override
   void initState() {
@@ -30,6 +31,7 @@ class _PageActivitiesState extends State<PageActivities> {
     id = widget.id;
     futureTree = getTree(id);
     _activateTimer();
+    currentPageIndex = 0;
   }
 
   void _refresh() async {
@@ -66,7 +68,9 @@ class _PageActivitiesState extends State<PageActivities> {
             appBar: AppBar(
               actionsIconTheme: IconTheme.of(context),
               title: Text(
-                snapshot.data!.root.name,
+                snapshot.data!.root.name == "root"
+                    ? "Home"
+                    : snapshot.data!.root.name,
                 style: const TextStyle(),
               ),
               actions: <Widget>[
@@ -90,15 +94,49 @@ class _PageActivitiesState extends State<PageActivities> {
                 //TODO: other actions
               ],
             ),
-            body: ListView.separated(
-              // it's like ListView.builder() but better because it includes a separator between items
-              padding: const EdgeInsets.all(16.0),
-              itemCount: snapshot.data!.root.children.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  _buildCard(snapshot.data!.root.children[index], index),
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(),
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: () {
+                // TODO: Add action
+              },
+              label: Text(
+                  currentPageIndex == 0 ? "Create Project" : "Create Task"),
+              icon: const Icon(Icons.add),
             ),
+            bottomNavigationBar: NavigationBar(
+              onDestinationSelected: (int index) {
+                setState(() {
+                  currentPageIndex = index;
+                });
+              },
+              selectedIndex: currentPageIndex,
+              destinations: const <Widget>[
+                NavigationDestination(
+                  icon: Icon(Icons.folder),
+                  label: 'Projects',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.task),
+                  label: 'Tasks',
+                ),
+              ],
+            ),
+            body: <Widget>[
+              ListView.builder(
+                // it's like ListView.builder() but better because it includes a separator between items
+                padding: const EdgeInsets.all(16.0),
+                itemCount: snapshot.data!.root.children.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    _buildCardProject(
+                        snapshot.data!.root.children[index], index),
+              ),
+              ListView.builder(
+                // it's like ListView.builder() but better because it includes a separator between items
+                padding: const EdgeInsets.all(16.0),
+                itemCount: snapshot.data!.root.children.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    _buildCardTask(snapshot.data!.root.children[index], index),
+              ),
+            ][currentPageIndex],
           );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -113,7 +151,7 @@ class _PageActivitiesState extends State<PageActivities> {
     );
   }
 
-  Widget _buildCard(Activity activity, int index) {
+  Widget _buildCardProject(Activity activity, int index) {
     String strDuration =
         Duration(seconds: activity.duration).toString().split('.').first;
     // split by '.' and taking first element of resulting list
@@ -123,33 +161,76 @@ class _PageActivitiesState extends State<PageActivities> {
       return Card(
         child: ListTile(
           title: Text(activity.name),
+          leading: Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: <Widget>[
+                const Icon(Icons.folder),
+                IconButton(
+                    onPressed: () {
+                      // TODO: show Project info
+                    },
+                    icon: const Icon(Icons.info)),
+              ]),
           trailing: Text(strDuration),
           onTap: () => _navigateDownActivities(activity.id),
-          // TODO: navigate down to show children tasks and projects
         ),
       );
     } else {
-      // Task task = activity as Task;
+      return Container();
+    }
+  }
+
+  Widget _buildCardTask(Activity activity, int index) {
+    String strDuration =
+        Duration(seconds: activity.duration).toString().split('.').first;
+    // split by '.' and taking first element of resulting list
+    // removes the microseconds part
+    assert(activity is Project || activity is Task);
+    if (activity is Task) {
       return Card(
         child: ListTile(
           title: Text(
             activity.name,
           ),
-          trailing: Text(
-            strDuration,
-          ),
+          leading: Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: <Widget>[
+                const Icon(Icons.task),
+                IconButton(
+                    onPressed: () {
+                      // TODO: show Task info
+                    },
+                    icon: const Icon(Icons.info)),
+              ]),
+          trailing: Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(right: 15.0),
+                  child: Text(
+                    strDuration,
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      if (activity.active) {
+                        stop(activity.id);
+                        _refresh();
+                      } else {
+                        start(activity.id);
+                        _refresh();
+                      }
+                    },
+                    icon: Icon(activity.active ? Icons.stop : Icons.play_arrow))
+              ]),
           onTap: () => _navigateDownIntervals(activity.id),
-          onLongPress: () {
-            if ((activity as Task).active) {
-              stop(activity.id);
-              _refresh();
-            } else {
-              start(activity.id);
-              _refresh();
-            }
-          },
         ),
       );
+    } else {
+      return Container();
     }
   }
 
