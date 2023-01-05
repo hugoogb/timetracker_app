@@ -7,12 +7,13 @@ final http.Client client = http.Client();
 
 // If you connect the Android emulator to the webserver listening to localhost:8080
 // const String baseUrl = "http://10.0.2.2:8080";
+const String baseUrl = "http://localhost:8080";
 
 // If instead you want to use a real phone, you need ngrok to redirect
 // localhost:8080 to some temporal Url that ngrok.com provides for free: run
 // "ngrok http 8080" and replace the address in the sentence below
-const String baseUrl =
-    "https://d86d-158-109-94-83.eu.ngrok.io"; // change url when needed
+// const String baseUrl =
+//     "https://d86d-158-109-94-83.eu.ngrok.io"; // change url when needed
 // Uri uri = Uri(
 //   scheme: "https",
 //   host: "9db0-79-157-94-181.eu.ngrok.io",
