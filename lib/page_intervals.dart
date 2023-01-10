@@ -94,13 +94,17 @@ class _PageIntervalsState extends State<PageIntervals> {
   Widget _buildRow(t.Interval interval, int index) {
     String strDuration =
         Duration(seconds: interval.duration).toString().split('.').first;
-    String strInitialDate = interval.initialDate.toString().split('.')[0];
+    String strInitial = interval.initialDate.toString().split('.')[0];
+    String strInitialDate = strInitial.split(' ')[0];
+    String strInitialHour = strInitial.split(' ')[1];
     // this removes the microseconds part
-    String strFinalDate = interval.finalDate.toString().split('.')[0];
+    String strFinal = interval.finalDate.toString().split('.')[0];
+    String strFinalDate = strFinal.split(' ')[0];
+    String strFinalHour = strFinal.split(' ')[1];
     return Card(
       child: ListTile(
         title: Text(
-          'from $strInitialDate to $strFinalDate',
+          'From $strInitialDate at $strInitialHour to $strFinalDate at $strFinalHour',
         ),
         trailing: Text(
           strDuration,

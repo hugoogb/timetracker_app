@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:timetracker_app/page_intervals.dart';
 import 'package:timetracker_app/page_report.dart';
 import 'package:timetracker_app/tree.dart' hide getTree;
@@ -9,6 +10,8 @@ import 'package:timetracker_app/requests.dart';
 // has the new getTree() that sends an http request to the server
 import 'package:timetracker_app/page_create_project.dart';
 import 'package:timetracker_app/page_create_task.dart';
+
+final DateFormat _dateFormatter = DateFormat("yyyy-MM-dd HH:mm:ss");
 
 class PageActivities extends StatefulWidget {
   final int id;
@@ -136,15 +139,14 @@ class _PageActivitiesState extends State<PageActivities> {
                 padding: const EdgeInsets.all(16.0),
                 itemCount: snapshot.data!.root.children.length,
                 itemBuilder: (BuildContext context, int index) =>
-                    _buildCardProject(
-                        snapshot.data!.root.children[index], index),
+                    _buildCardProject(snapshot.data!.root.children[index]),
               ),
               ListView.builder(
                 // it's like ListView.builder() but better because it includes a separator between items
                 padding: const EdgeInsets.all(16.0),
                 itemCount: snapshot.data!.root.children.length,
                 itemBuilder: (BuildContext context, int index) =>
-                    _buildCardTask(snapshot.data!.root.children[index], index),
+                    _buildCardTask(snapshot.data!.root.children[index]),
               ),
             ][currentPageIndex],
           );
@@ -161,7 +163,7 @@ class _PageActivitiesState extends State<PageActivities> {
     );
   }
 
-  Widget _buildCardProject(Activity activity, int index) {
+  Widget _buildCardProject(Activity activity) {
     String strDuration =
         Duration(seconds: activity.duration).toString().split('.').first;
     // split by '.' and taking first element of resulting list
@@ -170,15 +172,64 @@ class _PageActivitiesState extends State<PageActivities> {
     if (activity is Project) {
       return Card(
         child: ListTile(
+          // iconColor: activity.active ? Colors.blue : Colors.grey,
           title: Text(activity.name),
           leading: Wrap(
               alignment: WrapAlignment.center,
               crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
+              children: [
                 const Icon(Icons.folder),
                 IconButton(
                     onPressed: () {
-                      // TODO: show Project info
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                                title: Text("Project: ${activity.name}"),
+                                content: Wrap(
+                                  direction: Axis.vertical,
+                                  children: [
+                                    Wrap(
+                                      children: [
+                                        const Text(
+                                          "Initial date: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(activity.initialDate == null
+                                            ? "null (Project not initialized)"
+                                            : activity.initialDate
+                                                .toString()
+                                                .split('.')[0]),
+                                      ],
+                                    ),
+                                    Wrap(
+                                      children: [
+                                        const Text(
+                                          "Final date: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(activity.finalDate == null
+                                            ? "null (Project not initialized)"
+                                            : activity.finalDate
+                                                .toString()
+                                                .split('.')[0]),
+                                      ],
+                                    ),
+                                    Wrap(
+                                      children: [
+                                        const Text(
+                                          "ID: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text("${activity.id}"),
+                                      ],
+                                    ),
+                                  ],
+                                ));
+                          });
                     },
                     icon: const Icon(Icons.info)),
               ]),
@@ -191,7 +242,7 @@ class _PageActivitiesState extends State<PageActivities> {
     }
   }
 
-  Widget _buildCardTask(Activity activity, int index) {
+  Widget _buildCardTask(Activity activity) {
     String strDuration =
         Duration(seconds: activity.duration).toString().split('.').first;
     // split by '.' and taking first element of resulting list
@@ -200,17 +251,66 @@ class _PageActivitiesState extends State<PageActivities> {
     if (activity is Task) {
       return Card(
         child: ListTile(
+          iconColor: activity.active ? Colors.blue : Colors.grey,
           title: Text(
             activity.name,
           ),
           leading: Wrap(
               alignment: WrapAlignment.center,
               crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
+              children: [
                 const Icon(Icons.task),
                 IconButton(
                     onPressed: () {
-                      // TODO: show Task info
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                                title: Text("Task: ${activity.name}"),
+                                content: Wrap(
+                                  direction: Axis.vertical,
+                                  children: [
+                                    Wrap(
+                                      children: [
+                                        const Text(
+                                          "Initial date: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(activity.initialDate == null
+                                            ? "null (Task not initialized)"
+                                            : activity.initialDate
+                                                .toString()
+                                                .split('.')[0]),
+                                      ],
+                                    ),
+                                    Wrap(
+                                      children: [
+                                        const Text(
+                                          "Final date: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(activity.finalDate == null
+                                            ? "null (Task not initialized)"
+                                            : activity.finalDate
+                                                .toString()
+                                                .split('.')[0]),
+                                      ],
+                                    ),
+                                    Wrap(
+                                      children: [
+                                        const Text(
+                                          "ID: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text("${activity.id}"),
+                                      ],
+                                    ),
+                                  ],
+                                ));
+                          });
                     },
                     icon: const Icon(Icons.info)),
               ]),
@@ -234,7 +334,9 @@ class _PageActivitiesState extends State<PageActivities> {
                         _refresh();
                       }
                     },
-                    icon: Icon(activity.active ? Icons.stop : Icons.play_arrow))
+                    icon: Icon(
+                      activity.active ? Icons.stop : Icons.play_arrow,
+                    ))
               ]),
           onTap: () => _navigateDownIntervals(activity.id),
         ),
