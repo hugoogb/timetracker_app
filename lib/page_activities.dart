@@ -7,6 +7,8 @@ import 'package:timetracker_app/tree.dart' hide getTree;
 // the old getTree()
 import 'package:timetracker_app/requests.dart';
 // has the new getTree() that sends an http request to the server
+import 'package:timetracker_app/page_create_project.dart';
+import 'package:timetracker_app/page_create_task.dart';
 
 class PageActivities extends StatefulWidget {
   final int id;
@@ -98,12 +100,12 @@ class _PageActivitiesState extends State<PageActivities> {
               onPressed: () {
                 if (currentPageIndex == 0) {
                   Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => CreateProject(id))
-                  );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateProject(id)));
                 } else {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => CreateTask(id))
-                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CreateTask(id)));
                 }
               },
               label: Text(

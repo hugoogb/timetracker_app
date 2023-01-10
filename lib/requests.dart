@@ -66,8 +66,9 @@ Future<void> stop(int id) async {
   }
 }
 
-Future<void> newProject(int id, String name) async{//, List<String> tag) async {
-  String uriString = "$baseUrl/newProject?$id&$name";
+Future<void> createProject(int id, String name) async {
+  //, List<String> tag) async {
+  String uriString = "$baseUrl/create_project?$id&$name";
   Uri uri = Uri.parse(uriString);
   final response = await client.get(uri);
   if (response.statusCode == 200) {
@@ -78,9 +79,9 @@ Future<void> newProject(int id, String name) async{//, List<String> tag) async {
   }
 }
 
-
-Future<void> newTask(int id, String name) async {//, List<String> tag) async {
-  String uriString = "$baseUrl/newProject?$id&$name"; //&$tag";
+Future<void> createTask(int id, String name) async {
+  //, List<String> tag) async {
+  String uriString = "$baseUrl/create_task?$id&$name"; //&$tag";
   Uri uri = Uri.parse(uriString);
   final response = await client.get(uri);
   if (response.statusCode == 200) {
