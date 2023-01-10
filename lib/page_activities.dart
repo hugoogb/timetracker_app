@@ -96,7 +96,15 @@ class _PageActivitiesState extends State<PageActivities> {
             ),
             floatingActionButton: FloatingActionButton.extended(
               onPressed: () {
-                // TODO: Add action
+                if (currentPageIndex == 0) {
+                  Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => CreateProject(id))
+                  );
+                } else {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => CreateTask(id))
+                  );
+                }
               },
               label: Text(
                   currentPageIndex == 0 ? "Create Project" : "Create Task"),
