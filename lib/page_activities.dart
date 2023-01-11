@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:timetracker_app/custom_search_delegate.dart';
 import 'package:timetracker_app/page_intervals.dart';
 import 'package:timetracker_app/page_report.dart';
 import 'package:timetracker_app/tree.dart' hide getTree;
@@ -10,8 +10,6 @@ import 'package:timetracker_app/requests.dart';
 // has the new getTree() that sends an http request to the server
 import 'package:timetracker_app/page_create_project.dart';
 import 'package:timetracker_app/page_create_task.dart';
-
-final DateFormat _dateFormatter = DateFormat("yyyy-MM-dd HH:mm:ss");
 
 class PageActivities extends StatefulWidget {
   final int id;
@@ -71,16 +69,22 @@ class _PageActivitiesState extends State<PageActivities> {
         if (snapshot.hasData) {
           return Scaffold(
             appBar: AppBar(
-              actionsIconTheme: IconTheme.of(context),
               title: Text(
                 snapshot.data!.root.name == "root"
                     ? "Home"
                     : snapshot.data!.root.name,
-                style: const TextStyle(),
               ),
               actions: <Widget>[
                 IconButton(
-                    color: IconTheme.of(context).color,
+                    onPressed: () {
+                      // method to show the search bar
+                      showSearch(
+                          context: context,
+                          // delegate to customize the search bar
+                          delegate: CustomSearchDelegate());
+                    },
+                    icon: const Icon(Icons.search)),
+                IconButton(
                     icon: const Icon(Icons.home),
                     onPressed: () {
                       while (Navigator.of(context).canPop()) {
@@ -89,14 +93,12 @@ class _PageActivitiesState extends State<PageActivities> {
                       const PageActivities(0);
                     }),
                 IconButton(
-                    color: IconTheme.of(context).color,
                     icon: const Icon(Icons.list_alt_sharp),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute<void>(
                         builder: (context) => const PageReport(),
                       ));
                     }),
-                //TODO: other actions
               ],
             ),
             floatingActionButton: FloatingActionButton.extended(
@@ -172,7 +174,7 @@ class _PageActivitiesState extends State<PageActivities> {
     if (activity is Project) {
       return Card(
         child: ListTile(
-          iconColor: _proveActiveProject(activity, index) ? Colors.blue : Colors.grey,
+          iconColor: _proveActiveProject(activity) ? Colors.blue : Colors.grey,
           title: Text(activity.name),
           leading: Wrap(
               alignment: WrapAlignment.center,
@@ -345,19 +347,19 @@ class _PageActivitiesState extends State<PageActivities> {
       return Container();
     }
   }
-  
-  bool _proveActiveProject(Project activity, int index) {
+
+  bool _proveActiveProject(Project activity) {
     bool active = false;
-    if (activity.id != 0 && index != 0) {
-      for(int i=0; i<activity.children.length; i++) {
-        if (activity.children[i]) {
-          active = true;
+    if (activity.id != 0) {
+      for (int i = 0; i < activity.children.length; i++) {
+        if (activity.children[i] is Task) {
+          active = activity.children[i].active;
         } else {
           active = false;
         }
       }
     } else {
-      active = true;
+      active = false;
     }
 
     return active;
