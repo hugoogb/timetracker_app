@@ -25,7 +25,7 @@ class _PageActivitiesState extends State<PageActivities> {
   late Future<Tree> futureTree;
 
   late Timer _timer;
-  static const int periodeRefresh = 6;
+  static const int periodeRefresh = 500;
   late int currentPageIndex;
 
   @override
@@ -43,7 +43,8 @@ class _PageActivitiesState extends State<PageActivities> {
   }
 
   void _activateTimer() {
-    _timer = Timer.periodic(const Duration(seconds: periodeRefresh), (Timer t) {
+    _timer =
+        Timer.periodic(const Duration(milliseconds: periodeRefresh), (Timer t) {
       futureTree = getTree(id);
       setState(() {});
     });
@@ -137,19 +138,23 @@ class _PageActivitiesState extends State<PageActivities> {
             ),
             body: <Widget>[
               ListView.builder(
-                // it's like ListView.builder() but better because it includes a separator between items
-                padding: const EdgeInsets.all(16.0),
-                itemCount: snapshot.data!.root.children.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    _buildCardProject(snapshot.data!.root.children[index]),
-              ),
+                  // it's like ListView.builder() but better because it includes a separator between items
+                  padding: const EdgeInsets.all(16.0),
+                  itemCount: snapshot.data!.root.children.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final sortedChildren = snapshot.data!.root.children
+                      ..sort(((a, b) => a.name.compareTo(b.name)));
+                    return _buildCardProject(sortedChildren[index]);
+                  }),
               ListView.builder(
-                // it's like ListView.builder() but better because it includes a separator between items
-                padding: const EdgeInsets.all(16.0),
-                itemCount: snapshot.data!.root.children.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    _buildCardTask(snapshot.data!.root.children[index]),
-              ),
+                  // it's like ListView.builder() but better because it includes a separator between items
+                  padding: const EdgeInsets.all(16.0),
+                  itemCount: snapshot.data!.root.children.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final sortedChildren = snapshot.data!.root.children
+                      ..sort(((a, b) => a.name.compareTo(b.name)));
+                    return _buildCardTask(sortedChildren[index]);
+                  }),
             ][currentPageIndex],
           );
         } else if (snapshot.hasError) {
