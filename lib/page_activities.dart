@@ -174,7 +174,7 @@ class _PageActivitiesState extends State<PageActivities> {
     if (activity is Project) {
       return Card(
         child: ListTile(
-          iconColor: _proveActiveProject(activity) ? Colors.blue : Colors.grey,
+          iconColor: activity.activeChildren ? Colors.blue : Colors.grey,
           title: Text(activity.name),
           leading: Wrap(
               alignment: WrapAlignment.center,
@@ -346,23 +346,6 @@ class _PageActivitiesState extends State<PageActivities> {
     } else {
       return Container();
     }
-  }
-
-  bool _proveActiveProject(Project activity) {
-    bool active = false;
-    if (activity.id != 0) {
-      for (int i = 0; i < activity.children.length; i++) {
-        if (activity.children[i] is Task) {
-          active = activity.children[i].active;
-        } else {
-          active = false;
-        }
-      }
-    } else {
-      active = false;
-    }
-
-    return active;
   }
 
   void _navigateDownActivities(int childId) {

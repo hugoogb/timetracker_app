@@ -28,7 +28,10 @@ abstract class Activity {
 }
 
 class Project extends Activity {
+  late bool activeChildren;
+
   Project.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+    activeChildren = json['activeChildren'];
     if (json.containsKey('activities')) {
       // json has only 1 level because depth=1 or 0 in time_tracker
       for (Map<String, dynamic> jsonChild in json['activities']) {
