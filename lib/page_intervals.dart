@@ -20,7 +20,7 @@ class _PageIntervalsState extends State<PageIntervals> {
   late Future<t.Tree> futureTree;
 
   late Timer _timer;
-  static const int periodeRefresh = 6;
+  static const int periodeRefresh = 1500;
 
   @override
   void initState() {
@@ -31,7 +31,8 @@ class _PageIntervalsState extends State<PageIntervals> {
   }
 
   void _activateTimer() {
-    _timer = Timer.periodic(const Duration(seconds: periodeRefresh), (Timer t) {
+    _timer =
+        Timer.periodic(const Duration(milliseconds: periodeRefresh), (Timer t) {
       futureTree = getTree(id);
       setState(() {});
     });
