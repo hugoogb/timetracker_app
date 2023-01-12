@@ -1,6 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:timetracker_app/page_activities.dart';
+import 'package:timetracker_app/tree.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
+  final Tree data;
+  CustomSearchDelegate(this.data);
+
+  // To generate fake results when clicking on tag results
+  Random random = Random();
+
 // Demo list to show querying
   List<String> fakeSearchTerms = [
     "java",
@@ -53,8 +63,17 @@ class CustomSearchDelegate extends SearchDelegate {
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
+        return Card(
+          child: ListTile(
+            title: Text(result),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute<void>(
+// Search by tag redirects to a random Project or Task (no functionality) just to test it works
+                builder: (context) => PageActivities(
+                    random.nextInt(data.root.children.length) + 1),
+              ));
+            },
+          ),
         );
       },
     );
@@ -70,12 +89,22 @@ class CustomSearchDelegate extends SearchDelegate {
         matchQuery.add(tag);
       }
     }
+
     return ListView.builder(
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
+        return Card(
+          child: ListTile(
+            title: Text(result),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute<void>(
+// Search by tag redirects to a random Project or Task (no functionality) just to test it works
+                builder: (context) => PageActivities(
+                    random.nextInt(data.root.children.length) + 1),
+              ));
+            },
+          ),
         );
       },
     );

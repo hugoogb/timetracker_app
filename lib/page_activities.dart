@@ -82,7 +82,7 @@ class _PageActivitiesState extends State<PageActivities> {
                       showSearch(
                           context: context,
                           // delegate to customize the search bar
-                          delegate: CustomSearchDelegate());
+                          delegate: CustomSearchDelegate(snapshot.data!));
                     },
                     icon: const Icon(Icons.search)),
                 IconButton(
